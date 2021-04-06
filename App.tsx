@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import * as Redux from 'react-redux';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -10,14 +11,18 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
+  const store = Redux.createStore([])
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+      <Redux.Provide store={store}>
+        <SafeAreaProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </SafeAreaProvider>
+      </Redux.Provide>
     );
   }
 }

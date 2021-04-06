@@ -4,16 +4,20 @@ import { StyleSheet, Image } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, ScrollView, View } from '../components/Themed';
 
-export default function TabTwoScreen() {
+export default function TabTwoScreen({ store }) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.title}>|Point name|</Text>
+        <Text style={styles.title}>{store.title}</Text>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-        <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Text>
-        <Text style={styles.text}>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-        <Image source={{ uri: 'https://img.etimg.com/thumb/msid-73320353,width-1200,height-900,imgsize-789754,overlay-etrise/photo.jpg'}} style={styles.image} />
-        <Text style={styles.text}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
+        {
+          store.map((component, key) => { // { tag: 'string', content: 'string' }
+            switch(component.tag) {
+              case 'Text': return <Text key={key} style={styles.text}>{component.content}</Text>
+              case 'Image': return <Image key={key} style={styles.image} source={{ uri: component.content }} />
+            }
+          })
+        }
       </View>
     </ScrollView>
   );
@@ -43,6 +47,7 @@ const styles = StyleSheet.create({
   image: {
     width: 300,
     height: 300,
-    marginVertical: 30
+    marginTop: 20,
+    marginBottom: 10,
   }
 });
